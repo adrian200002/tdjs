@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "jsdoc": "^4.0.3",
     "jsdom": "24.1.0",
     "jsdom-global": "3.0.2",
