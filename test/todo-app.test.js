@@ -5,6 +5,7 @@ const html = fs.readFileSync(path.resolve(__dirname, '../index.html'));
 require('jsdom-global')(html);
 const app = require('../lib/todo-app.js');
 const id = 'test-app';
+const elmish = require('../lib/elmish.js')
 
 test('todo `model` (Object) has desired keys', function (t) {
     const keys = Object.keys(app.model);
