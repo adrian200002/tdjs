@@ -188,3 +188,32 @@ test('elmish creates <header> view using html element functions', function(t) {
     elmish.empty(document.getElementById(id));
     t.end();
 })
+
+test('elmish creates <main> view using html element functions', function(t) {
+    const { append_childnodes, text, main, div, input, label, ul, li, button } = elmish;
+
+    append_childnodes([
+        main(['class=main'], [
+            div(['class=toggle-all-container'], [
+                input(['class=toggle-all', 'type=checkbox'], []),
+                label(['class=toggle-all-label', 'for=toggle-all'], [])
+            ]),
+            ul(['class=todo-list'], [
+                li(['class=completed', 'data-id=first-todo'], [
+                    div(['class=view'], [
+                        input(['class=toggle', 'type=checkbox'], []),
+                        label(['id=textlabel'], [text('Learn Elm Architecture')]),
+                        button(['class=destroy'], [])
+                    ])
+                ])
+            ])
+        ]) //main
+    ], document.getElementById(id));
+
+    const completed = document.querySelectorAll('.completed')[0].textContent.trim();
+    t.equal(completed, 'Learn Elm Architecture');
+    const bol = document.querySelector('button').classList.contains('destroy');
+    t.equal(bol, true,'appended button should have destroy class');
+    elmish.empty(document.getElementById(id));
+    t.end();
+})
