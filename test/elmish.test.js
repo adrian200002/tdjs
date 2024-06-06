@@ -218,7 +218,7 @@ test('elmish creates <main> view using html element functions', function(t) {
     t.end();
 })
 
-test.only('elmish creates <footer> view using html element functions', function(t) {
+test('elmish creates <footer> view using html element functions', function(t) {
     const {append_childnodes, span, ul, footer, li, a, button, text, strong } = elmish;
 
     append_childnodes([footer(['class=footer'], [
@@ -250,3 +250,32 @@ test.only('elmish creates <footer> view using html element functions', function(
     elmish.empty(document.getElementById(id));
     t.end();
 })
+
+
+test.only('elmish.route updates the url hash and sets history', function(t) {
+    const initial_hash = window.location.hash;
+    const initial_history_length = window.history.length;
+    const state = {
+        hash: ''
+    }
+    const new_hash = '#/active';
+    const new_state = elmish.route(state, 'Active', new_hash);
+    t.notEqual(initial_hash, window.location.hash, 'hash should have changed');
+    t.equal(new_hash, new_state.hash);
+    t.equal(initial_history_length + 1, window.history.length, 'history length should increase by 1');
+    t.end();
+})
+
+global.localStorage = {
+    getItem: function(key) {
+     const value = this[key];
+     return typeof value === 'undefined' ? null : value;
+   },
+   setItem: function (key, value) {
+     this[key] = value;
+   }
+  }
+  localStorage.setItem('hello', 'world!');
+  console.log('localStorage (polyfil) hello', localStorage.getItem('hello'));
+
+  
