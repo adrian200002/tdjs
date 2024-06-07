@@ -45,3 +45,116 @@ test('Toggle todo item from done=false to done=true', function(t) {
     t.deepEqual(model_todo_undone.todos[0], undone);
     t.end();
 })
+
+test('render_item HTML for a single Todo item', function(t) {
+    const model = {
+        todos: [
+            { id: 1, title: 'first todo', done: true }
+        ],
+        hash: '#/'
+    }
+
+    document.getElementById(id).appendChild(app.render_item(model.todos[0]));
+    const done = document.querySelectorAll('.completed')[0].textContent;
+    t.equal(done, 'first todo');
+    
+    const checked = document.querySelectorAll('input')[0].checked;
+    t.equal(checked, true, 'Done ' + model.todos[0].title + 'is done=true');
+
+    elmish.empty(document.getElementById(id));
+    t.end();
+})
+
+test('render main view elmish html dom functions' , function(t) {
+    const model = {
+        todos: [
+            { id: 1, title: "Learn Elm Architecture", done: true },
+            { id: 2, title: "Build Todo List App",    done: false },
+            { id: 3, title: "Win the Internet!",      done: false }
+        ],
+        hash: '#/'
+    }
+
+    document.getElementById(id).appendChild(app.render_main(model));
+
+    document.querySelectorAll('.view').forEach((item, index) => {
+        t.equal(item.textContent, model.todos[index].title)
+    })
+
+    const inputs = document.querySelectorAll('input');
+
+    [true, false, false].forEach((bol, index) => {
+        t.equal(inputs[index + 1].checked, bol)
+    })
+
+    elmish.empty(document.getElementById(id));
+    t.end();
+})
+
+test('render footer view using elmish html dom functions', function(t) {
+    const model = {
+        todos: [
+          { id: 1, title: "Learn Elm Architecture", done: true },
+          { id: 2, title: "Build Todo List App",    done: false },
+          { id: 3, title: "Win the Internet!",      done: false }
+        ],
+        hash: '#/'
+      };
+
+    document.getElementById(id).appendChild(app.render_footer(model));
+
+    const left = document.querySelector('span').innerHTML;
+    t.equal(left, '<strong>2</strong> items left', 'remaining todos');
+
+    const li = document.querySelectorAll('li');
+    t.equal(li.length, 3, '3 <li> in footer');
+
+    const link_texts = ['All', 'Active', 'Completed'];
+    const hrefs = ['#/', '#/active', '#/completed'];
+
+    document.querySelectorAll('a').forEach((item, index) => {
+        
+        t.equal(item.textContent, link_texts[index], 'text should match');
+
+        t.equal(item.href.replace('about:blank', ''), hrefs[index]);
+    })
+
+    const clear = document.querySelector('.clear-completed').textContent;
+    t.equal(clear, 'Clear completed');
+
+    elmish.empty(document.getElementById(id));
+    t.end();
+})
+
+test('render_footer 1 item left (pluarisation test)', function (t) {
+    const model = {
+      todos: [
+        { id: 1, title: "Be excellent to each other!", done: false }
+      ],
+      hash: '#/'
+    };
+
+    document.getElementById(id).appendChild(app.render_footer(model));
+  
+
+    const left = document.getElementById('count').innerHTML;
+    t.equal(left, "<strong>1</strong> item left", "Todos remaining: " + left);
+  
+    elmish.empty(document.getElementById(id));
+    t.end();
+  });
+
+test('view renders whole todoapp using elmish functions', function(t) {
+    document.getElementById(id).appendChild(app.view(app.model));
+
+    t.equal(document.querySelector('h1').textContent, 'todos', 'h1 title = todos');
+
+    const placeholder = document.querySelector('input').placeholder;
+    t.equal(placeholder, 'What needs to be done?');
+
+    const left = document.getElementById('count').innerHTML;
+    t.equal(left, '<strong>0</strong> item left');
+
+    elmish.empty(document.getElementById(id));
+    t.end();
+})

@@ -252,7 +252,7 @@ test('elmish creates <footer> view using html element functions', function(t) {
 })
 
 
-test.only('elmish.route updates the url hash and sets history', function(t) {
+test('elmish.route updates the url hash and sets history', function(t) {
     const initial_hash = window.location.hash;
     const initial_history_length = window.history.length;
     const state = {
@@ -278,4 +278,3 @@ global.localStorage = {
   localStorage.setItem('hello', 'world!');
   console.log('localStorage (polyfil) hello', localStorage.getItem('hello'));
 
-  

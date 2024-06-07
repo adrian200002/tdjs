@@ -9,61 +9,21 @@
 </head>
 
 <body>
-    <section class="todoapp">
-        <header class="header">
-            <h1>todos</h1>
-            <input class="new-todo" placeholder="What needs to be done?" autofocus />
-        </header>
-        <main class="main">
-            <div class="toggle-all-container">
-                <input class="toggle-all" type="checkbox" />
-                <label class="toggle-all-label" for="toggle-all">Mark all as complete</label>
-            </div>
-            <ul class="todo-list">
-                <li data-id="1533501855500" class="completed">
-                    <div class="view">
-                        <input class="toggle" type="checkbox">
-                        <label>Learn Elm Architecture</label>
-                        <button class="destroy"></button>
-                    </div>
-                </li>
-                <li data-id="1533501861171" class="">
-                    <div class="view">
-                        <input class="toggle" type="checkbox">
-                        <label>Build Todo List App</label>
-                        <button class="destroy"></button>
-                    </div>
-                </li>
-                <li data-id="1533501867123" class="">
-                    <div class="view">
-                        <input class="toggle" type="checkbox">
-                        <label>Win the Internet!</label>
-                        <button class="destroy"></button>
-                    </div>
-                </li>
-            </ul>
-        </main>
-        <footer class="footer">
-            <span class="todo-count"></span>
-            <ul class="filters">
-                <li>
-                    <a href="#/" class="selected">All</a>
-                </li>
-                <li>
-                    <a href="#/active">Active</a>
-                </li>
-                <li>
-                    <a href="#/completed">Completed</a>
-                </li>
-            </ul>
-            <button class="clear-completed">Clear completed</button>
-        </footer>
-    </section>
-    <footer class="info">
-        <p>Double-click to edit a todo</p>
-        <p>Created by the TodoMVC Team</p>
-        <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
-    </footer>
+    <div id="app"></div>
+    <script src="lib/elmish.js"></script>
+    <script src="lib/todo-app.js"></script>
+    <script>
+        const model = {
+            todos: [
+                { id: 1, title: "Learn Elm Architecture", done: true },
+                { id: 2, title: "Build Todo List App", done: false },
+                { id: 3, title: "Win the Internet!", done: false }
+            ],
+            hash: '#/'
+        }
+        mount(model, update, view, 'app');
+    </script>
+
 
     <div id="test-app"></div>
 </body>

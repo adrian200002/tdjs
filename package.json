@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node test/elmish.test.js"
+    "test": "node test/todo-app.test.js"
   },
   "keywords": [],
   "author": "",
